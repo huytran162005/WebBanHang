@@ -36,6 +36,6 @@ namespace WebBanHang.Models
             new Product { Id = 11, Name = "Ipad Gen 10", Price = 750, CategoryId = 2 },
             new Product { Id = 12, Name = "Ipad Pro 11", Price = 1250, CategoryId = 2 });
         }
+
     }
 }
-
