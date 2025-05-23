@@ -1,0 +1,37 @@
+@model List<Product>
+
+@foreach (var p in Model)
+{
+    <div class="col product-item">
+        <div class="card h-100">
+            <h3 class="card-header">
+                @p.Name
+            </h3>
+            @if (String.IsNullOrEmpty(p.ImageUrl))
+            {
+                <svg xmlns="http://www.w3.org/2000/svg" class="d-block user-select-none" width="100%" height="200" aria-label="Placeholder: Image cap" focusable="false" role="img" preserveAspectRatio="xMidYMid slice" viewBox="0 0 318 180" style="font-size:1.125rem;text-anchor:middle">
+                    <rect width="100%" height="100%" fill="#868e96"></rect>
+                    <text x="50%" y="50%" fill="#dee2e6" dy=".3em">Image cap</text>
+                </svg>
+            }
+            else
+            {
+                <img src="@p.ImageUrl" class="card-img-top" style="height: 250px; object-fit: contain;" alt="@p.Name">
+            }
+
+            <div class="card-body">
+                <p class="card-text">@p.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item fw-bold">Price: $@p.Price</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+            <div class="card-footer text-muted">
+                2 days ago
+            </div>
+        </div>
+    </div>
+}
