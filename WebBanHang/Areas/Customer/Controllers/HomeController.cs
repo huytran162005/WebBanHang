@@ -11,8 +11,9 @@ using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Diagnostics;
 
-namespace WebBanHang.Controllers
+namespace WebBanHang.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;

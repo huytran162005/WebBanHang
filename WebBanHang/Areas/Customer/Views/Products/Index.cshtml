@@ -1,0 +1,102 @@
+﻿@model List<WebBanHang.Models.Product>
+
+@{
+    ViewData["Title"] = "Danh sách sản phẩm";
+    var totalProductCount = ViewBag.TotalProductCount != null ? (int)ViewBag.TotalProductCount : 0;
+}
+
+<h2 class="mb-4">Danh sách sản phẩm</h2>
+<!-- Hiển thị tên danh mục nếu đang lọc theo danh mục -->
+@if (!string.IsNullOrEmpty(ViewBag.CategoryName))
+{
+    <h4 class="mb-3 text-primary">Danh mục: @ViewBag.CategoryName</h4>
+}
+
+<div class="row category-filter">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label>Lọc theo danh mục:</label>
+            <select id="category-dropdown" class="form-control">
+                <option value="0">Tất cả danh mục</option>
+                <!-- Các option sẽ được điền bằng Ajax -->
+            </select>
+        </div>
+    </div>
+</div>
+
+<div class="row row-cols-1 row-cols-md-3 g-4" id="product-list">
+    @await Html.PartialAsync("~/Areas/Customer/Views/Home/_ProductCardsPartial.cshtml", Model)
+</div>
+
+@if (Model.Count < totalProductCount)
+{
+    <div class="d-grid gap-2 col-6 mx-auto mt-5 mb-4">
+        <button id="load-more-btn" class="btn btn-lg btn-primary" type="button"
+                data-current-count="@Model.Count" data-total-count="@ViewBag.TotalProductCount">
+            Xem Thêm
+        </button>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        let skip = @Model.Count;
+        const total = @totalProductCount;
+
+        $('#load-more-btn').on('click', function () {
+            $.ajax({
+                url: '@Url.Action("LoadMoreProducts", "Products", new { area = "Customer" })',
+                data: {
+                    skip: skip,
+                    categoryId: $('#category-dropdown').val() // Thêm categoryId nếu đang lọc
+                },
+                type: 'GET',
+                success: function (data) {
+                    $('#product-list').append(data);
+                    skip += $(data).filter('.col.product-item').length; // Sửa selector cho phù hợp
+                    if (skip >= total) {
+                        $('#load-more-btn').hide();
+                    }
+                },
+                error: function () {
+                    alert('Đã xảy ra lỗi khi tải thêm sản phẩm!');
+                }
+            });
+        });
+
+        $(document).ready(function() {
+            // Lấy danh sách danh mục
+            $.ajax({
+                url: '@Url.Action("GetCategories", "Products", new { area = "Customer" })',
+                type: 'GET',
+                success: function(data) {
+                    // Điền dữ liệu vào dropdown
+                    $.each(data, function(i, item) {
+                        $('#category-dropdown').append($('<option>', {
+                            value: item.id,
+                            text: item.name
+                        }));
+                    });
+
+                    // Nếu đang ở trang danh mục cụ thể, chọn sẵn giá trị trong dropdown
+                    @if (ViewBag.CategoryId != null)
+                    {
+                        <text>
+                        $('#category-dropdown').val(@ViewBag.CategoryId);
+                        </text>
+                    }
+
+                    // Xử lý sự kiện khi chọn danh mục
+                    $('#category-dropdown').change(function() {
+                        var categoryId = $(this).val();
+                        if (categoryId == 0) {
+                            window.location.href = '@Url.Action("Index", "Products", new { area = "Customer" })';
+                        } else {
+                            window.location.href = '@Url.Action("ByCategory", "Products", new { area = "Customer" })/' + categoryId;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

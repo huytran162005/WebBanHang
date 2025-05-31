@@ -1,5 +1,4 @@
 @model List<Product>
-
 @foreach (var p in Model)
 {
     <div class="col product-item">
@@ -16,7 +15,7 @@
             }
             else
             {
-                <img src="@p.ImageUrl" class="card-img-top" style="height: 300px; object-fit: contain;" alt="@p.Name">
+                <img src="/@p.ImageUrl" class="card-img-top" style="height: 300px; object-fit: contain;" alt="@p.Name">
             }
 
             <div class="card-body">
