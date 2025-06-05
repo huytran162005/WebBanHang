@@ -35,9 +35,17 @@
                             </li>
                         }
                     </ul>
+                    <form asp-action="Index" asp-controller="Cart" class="d-flex">
+                        <button class="btn btn-outline-light" type="submit">
+                            <i class="bi-cart-fill me-1"></i>
+                            Cart
+                            <span class="showcart badge bg-light text-black ms-1 rounded-pill">0</span>
+                        </button>
+                    </form>
                     <partial name="_LoginPartial">
                 </div>
             </div>
+
         </nav>
     </header>
     <div class="container  mt-5">

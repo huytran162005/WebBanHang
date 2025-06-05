@@ -39,7 +39,7 @@ namespace WebBanHang.Areas.Customer.Controllers
             // Lấy 3 sản phẩm đầu tiên từ cơ sở dữ liệu, bao gồm cả thông tin danh mục
             var initialProducts = _db.Products
                 .Include(p => p.Category)
-                .Take(3)
+                .Take(4)
                 .ToList();
 
             // Lưu tổng số sản phẩm vào ViewBag để sử dụng trong View cho nút "Xem thêm"
@@ -60,7 +60,7 @@ namespace WebBanHang.Areas.Customer.Controllers
             var products = _db.Products
                 .Include(p => p.Category)
                 .Skip(skip)
-                .Take(6)
+                .Take(8)
                 .ToList();
 
             // Trả về PartialView để thêm vào trang hiện tại qua AJAX
