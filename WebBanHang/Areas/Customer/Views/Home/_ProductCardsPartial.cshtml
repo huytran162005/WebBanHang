@@ -20,7 +20,7 @@
             </ul>
             <div class="card-body d-flex justify-content-between">
                 <a href="#" class="btn btn-outline-primary btn-sm">Detail</a>
-                <a asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" asp-route-productId="@p.Id" class="btn btn-outline-success btn-sm">Add To Cart</a>
+                <a asp-area="Customer" asp-controller="Cart" asp-action="AddToCart" data-productId="@p.Id" asp-route-productId="@p.Id" class="addtocart btn btn-outline-success btn-sm">Add To Cart</a>
             </div>
             <div class="card-footer text-muted small text-center">
                 Danh mục: @p.Category?.Name
